@@ -10,3 +10,37 @@
   color: #fff;
   border: 1px solid #ddd;
 }
+
+.a4Container {
+  position: relative;
+  width: 210mm; /* Ancho de un formato A4 */
+  height: 297mm; /* Altura de un formato A4 */
+  background-color: white;
+  margin: auto; /* Centrar el contenedor */
+  overflow: hidden; /* Evitar que las tarjetas salgan del contenedor */
+  border: 1px solid #ccc; /* Bordes para resaltar el contenedor */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+  grid-gap: 10px; /* Espacio entre las tarjetas */
+  padding: 20px; /* Espaciado interno */
+}
+
+body {
+  display: flex;
+  align-items: center; /* Centrar verticalmente */
+  justify-content: center; /* Centrar horizontalmente */
+}
+
+.appContainer {
+  display: flex;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column; /* Apilar los botones verticalmente */
+  gap: 10px;
+  margin-right: 20px; /* Espacio entre los botones y el a4Container */
+  position: sticky;
+  top: 0; /* Fijar el contenedor en la parte superior */
+  align-self: flex-start; /* Alinear el contenedor al inicio del eje vertical */
+}

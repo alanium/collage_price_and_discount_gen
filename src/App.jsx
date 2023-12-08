@@ -61,25 +61,30 @@ const App = () => {
   };
 
   return (
-    <div>
-      <GridLayout
-        className="layout"
-        layout={layout}
-        cols={cols}
-        rowHeight={100}
-        width={300}
-        onLayoutChange={(newLayout) => setLayout(newLayout)}
-        resizeHandles={['se', 'sw', 'ne', 'nw']}  // Permitir cambiar tamaño desde todas las esquinas
-      >
-        {layout.map((item) => (
-          <div key={item.i} className="card">
-            {item.i}
-          </div>
-        ))}
-      </GridLayout>
-      <button onClick={handleAddCard}>Agregar Tarjeta</button>
-      <button onClick={handleAddColumn}>Agregar Columna</button>
-      <button onClick={handleRemoveColumn}>Eliminar Columna</button>
+    
+    <div className="appContainer">
+      <div className="buttonsContainer">
+        <button onClick={handleAddCard}>Agregar Tarjeta</button>
+        <button onClick={handleAddColumn}>Agregar Columna</button>
+        <button onClick={handleRemoveColumn}>Eliminar Columna</button>
+      </div>
+      <div className="a4Container">
+        <GridLayout
+          className="layout"
+          layout={layout}
+          cols={cols}
+          rowHeight={100}
+          width={750}
+          onLayoutChange={(newLayout) => setLayout(newLayout)}
+          resizeHandles={['se', 'sw', 'ne', 'nw']}
+        >
+          {layout.map((item) => (
+            <div key={item.i} className="card">
+              {item.i}
+            </div>
+          ))}
+        </GridLayout>
+      </div>
     </div>
   );
 };

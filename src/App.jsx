@@ -3,6 +3,8 @@ import GridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid'; // Importa la función v4 de uuid
+
 
 const App = () => {
   const [layout, setLayout] = useState([
@@ -21,29 +23,37 @@ const App = () => {
 
 
   const handleAddCard = () => {
-    const newCardId = (layout.length + 1).toString();
-  
-    // Obtener las claves existentes
-    const existingKeys = new Set(layout.map((item) => item.i));
-  
-    // Encontrar la primera clave que no está en uso
-    let col = 1;
-    while (existingKeys.has(col.toString())) {
+    const newCardId = uuidv4(); // Utiliza uuid para generar un identificador único
+
+    // Buscar la primera posición vacía
+    let row = 0;
+    let col = 0;
+
+    while (layout.some(item => {
+      // Verificar si la posición está ocupada por la tarjeta actual o parte de ella
+      return (
+        (item.x <= col && item.x + item.w > col) &&
+        (item.y <= row && item.y + item.h > row)
+      );
+    })) {
       col++;
+
+      // Si se llega al final de la fila, pasar a la siguiente fila
+      if (col >= cols) {
+        col = 0;
+        row++;
+      }
     }
-  
-    // Calcular la posición para la nueva tarjeta
-    const row = Math.floor(layout.length / cols);
-  
+
     // Añadir la nueva tarjeta
     const newLayoutItem = {
-      i: col.toString(),
+      i: newCardId,
       x: col,
       y: row,
       w: 1,
       h: 1,
     };
-  
+
     setLayout((prevLayout) => [...prevLayout, newLayoutItem]);
   };
 
@@ -94,8 +104,8 @@ const App = () => {
         className="layout"
         layout={layout}
         cols={cols}
-        rowHeight={100}
-        width={750}
+        rowHeight={101}
+        width={790}
         onLayoutChange={(newLayout) => setLayout(newLayout)}
         resizeHandles={['se', 'sw', 'ne', 'nw']}
         isDraggable={!overlayActive}

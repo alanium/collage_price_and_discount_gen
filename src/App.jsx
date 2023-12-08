@@ -17,6 +17,8 @@ const App = () => {
     { i: '9', x: 2, y: 2, w: 1, h: 1 },
   ]);
   const [cols, setCols] = useState(3);
+  const [overlayActive, setOverlayActive] = useState(false);
+
 
   const handleAddCard = () => {
     const newCardId = (layout.length + 1).toString();
@@ -60,30 +62,54 @@ const App = () => {
     }
   };
 
+  const handleToggleOverlay = () => {
+    setOverlayActive((prevOverlayActive) => !prevOverlayActive);
+  };
+
+  const handleRemoveCard = (cardId) => {
+    // Filtrar las tarjetas para mantener solo las que no coinciden con la card clickeada
+    setLayout((prevLayout) => prevLayout.filter((item) => item.i !== cardId));
+  };
+
   return (
-    
     <div className="appContainer">
       <div className="buttonsContainer">
         <button onClick={handleAddCard}>Agregar Tarjeta</button>
         <button onClick={handleAddColumn}>Agregar Columna</button>
         <button onClick={handleRemoveColumn}>Eliminar Columna</button>
+        <button onClick={handleToggleOverlay}>
+          {overlayActive ? 'Desactivar' : 'Activar'} Eliminar
+        </button>
       </div>
       <div className="a4Container">
-        <GridLayout
-          className="layout"
-          layout={layout}
-          cols={cols}
-          rowHeight={100}
-          width={750}
-          onLayoutChange={(newLayout) => setLayout(newLayout)}
-          resizeHandles={['se', 'sw', 'ne', 'nw']}
-        >
-          {layout.map((item) => (
-            <div key={item.i} className="card">
-              {item.i}
-            </div>
-          ))}
-        </GridLayout>
+      <GridLayout
+        className="layout"
+        layout={layout}
+        cols={cols}
+        rowHeight={100}
+        width={750}
+        onLayoutChange={(newLayout) => setLayout(newLayout)}
+        resizeHandles={['se', 'sw', 'ne', 'nw']}
+        isDraggable={!overlayActive}
+        onDragStart={(layout, oldItem, newItem, placeholder, e, element) => {
+          if (overlayActive) {
+            e.preventDefault();
+          }
+        }}
+      >
+        {layout.map((item) => (
+          <div key={item.i} className="card">
+            {item.i}
+            {overlayActive && (
+              <div className="overlay">
+                <button className="removeButton" onClick={() => handleRemoveCard(item.i)}>
+                  X
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </GridLayout>
       </div>
     </div>
   );

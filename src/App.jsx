@@ -22,20 +22,28 @@ const App = () => {
 
   const handleAddCard = () => {
     const newCardId = (layout.length + 1).toString();
-
+  
+    // Obtener las claves existentes
+    const existingKeys = new Set(layout.map((item) => item.i));
+  
+    // Encontrar la primera clave que no está en uso
+    let col = 0;
+    while (existingKeys.has(col.toString())) {
+      col++;
+    }
+  
     // Calcular la posición para la nueva tarjeta
-    const col = layout.length % cols; // Columna actual
-    const row = Math.floor(layout.length / cols); // Fila actual
-
+    const row = Math.floor(layout.length / cols);
+  
     // Añadir la nueva tarjeta
     const newLayoutItem = {
-      i: newCardId,
+      i: col.toString(),
       x: col,
       y: row,
       w: 1,
       h: 1,
     };
-
+  
     setLayout((prevLayout) => [...prevLayout, newLayoutItem]);
   };
 

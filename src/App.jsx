@@ -27,7 +27,7 @@ const App = () => {
     const existingKeys = new Set(layout.map((item) => item.i));
   
     // Encontrar la primera clave que no está en uso
-    let col = 0;
+    let col = 1;
     while (existingKeys.has(col.toString())) {
       col++;
     }

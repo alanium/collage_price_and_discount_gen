@@ -1,0 +1,12 @@
+.layout {
+  margin: 20px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3498db;
+  color: #fff;
+  border: 1px solid #ddd;
+}
